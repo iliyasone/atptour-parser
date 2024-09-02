@@ -6,6 +6,13 @@ driver.maximize_window()
 
 url = 'https://www.atptour.com/en/scores/stats-centre/live/2024/6242/MS005?tab=CourtVision'
 
+
+def expand_all():
+    try:
+        driver.find_element(By.XPATH, r"//button[text()='Expand All (X+E)']").click()
+    except NoSuchElementException:
+        pass
+
 def cookies_ok():
     driver.find_element(By.XPATH, r"//a[text()='Continue']").click()
 
