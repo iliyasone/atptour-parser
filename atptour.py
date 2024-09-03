@@ -13,8 +13,12 @@ def expand_all():
     except NoSuchElementException:
         pass
 
+
 def cookies_ok():
-    driver.find_element(By.XPATH, r"//a[text()='Continue']").click()
+    try:
+        driver.find_element(By.XPATH, r"//a[text()='Continue']").click()
+    except NoSuchElementException:
+        pass
 
 driver.get(url)
 cookies_ok()
