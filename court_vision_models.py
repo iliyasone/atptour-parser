@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Literal, NotRequired, TypedDict
+from typing import Literal, NotRequired, TypedDict, get_type_hints
 
 
 class Dictable:
@@ -12,6 +12,10 @@ class Dictable:
 class Court(Dictable):
     heightM: float = 8.23
     widthM: float = 23.77
+    
+class CourtDict(TypedDict):
+    heightM: float
+    widthM: float
 
 
 CourtType = type[Court] | Court
@@ -19,6 +23,7 @@ CourtType = type[Court] | Court
 
 class CourtVision(TypedDict):
     players: list[Player]
+    court: CourtDict
 
 
 class Player(TypedDict):

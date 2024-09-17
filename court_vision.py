@@ -46,14 +46,6 @@ def scroll_to_the_court():
     scroll_to(driver.find_element(By.CLASS_NAME, "match-timeline-wrapper"))
 
 
-def scroll_to_the_header():
-    scroll_to(driver.find_element(By.ID, "tabCourtVision"))
-
-
-def scroll_to(el: WebElement):
-    driver.execute_script("arguments[0].scrollIntoView(true);", el)
-
-
 def move_foreground(el: WebElement):
     driver.execute_script("arguments[0].parentNode.appendChild(arguments[0]);", el)
 
@@ -113,7 +105,7 @@ def get_balls(passed_balls: set[str], court: CourtType) -> list[Ball]:
 
 def get_curret_score_from_pop_up():
     """assume that a ball was clicked"""
-    
+
     game_scores = driver.find_element(By.CLASS_NAME, "game-scores").text.split("\n")
     set_score_1 = tuple(
         map(int, driver.find_element(By.CLASS_NAME, "set-scores-1").text.split("\n"))
@@ -194,7 +186,6 @@ def get_all_current_shots(passed_balls: set[str] | None = None) -> list[Shot]:
     )
 
     passed_balls: set[str] = passed_balls or set()
-    time.sleep(1)
     for i in range(len(court_balls())):
         court_ball = court_balls()[i]
 
@@ -231,7 +222,7 @@ def get_all_current_shots(passed_balls: set[str] | None = None) -> list[Shot]:
         else:
             print("Element was not closed")
 
-        time.sleep(1)
+        time.sleep(0.2)
     return current_shots
 
 
@@ -267,7 +258,7 @@ def parse_court_vision():
     driver.find_element(By.ID, "tabCourtVision").click()
     time.sleep(5)
 
-    data: CourtVision = {"players": []}
+    data: CourtVision = {"players": [], "court": Court.to_dict()}
     driver.find_element(By.XPATH, "//button[text()='2D']").click()
 
     player1, player2 = driver.find_elements(By.CLASS_NAME, "playerName")[:2]
@@ -303,7 +294,7 @@ def parse_court_vision():
                 print(label)
                 option.click()
 
-                time.sleep(1)
+                time.sleep(0.2)
                 shots: Shots = {
                     "label": label,
                     "shots": get_all_current_shots(),
