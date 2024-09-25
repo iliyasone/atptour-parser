@@ -129,7 +129,11 @@ def join_with_player_data(
         
         for g, serve in zip(circles, game["serves"]):
             ActionChains(driver).move_to_element(g).perform()
-            type, speed = g.text, driver.find_element(By.CLASS_NAME, 'KphSpeed').text
+            try:
+                type, speed = g.text, driver.find_element(By.CLASS_NAME, 'KphSpeed').text
+            except NoSuchElementException:
+                continue
+
             
             if 'type' in serve and serve['type'] != type:
                 print(id, type, serve['type'])
