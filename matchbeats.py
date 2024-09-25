@@ -152,7 +152,7 @@ def parse_matchbeats() -> Games:
     player1, _, player2, _ = driver.find_element(By.CLASS_NAME, 'player-name-block').text.split('\n')
 
     for player, playerNumb in ((player1, 1), (player2, 2)):
-        join_with_player_data(player1, playerNumb, games)
+        join_with_player_data(player, playerNumb, games)
 
     return {'games' : games}
 
