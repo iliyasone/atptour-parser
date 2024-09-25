@@ -8,8 +8,10 @@ class State:
     driver: WebDriver
 
     
+def get_driver() -> WebDriver:
+    return webdriver.Chrome()
     
-driver = State.driver = webdriver.Chrome()
+driver = State.driver = get_driver()
 
 
 url = "https://www.atptour.com/en/scores/stats-centre/live/2024/6242/MS005?tab=CourtVision"
@@ -100,14 +102,15 @@ def safe_get(url: str):
         By.XPATH, r"//h2[contains(text(), 'you are human')]"
     )
     if verifyThatYouAreHuman:
-        print("verification")
+        logger.info("verification")
         
         try:
             delete_cache()
             State.driver.refresh()
         except Exception:
-            print('HARD RELOAD')
+            logger.warning('HARD RELOAD')
             
+            new_driver = get_driver()
             try:
                 while State.driver.window_handles:
                     State.driver.switch_to.window(
@@ -117,14 +120,12 @@ def safe_get(url: str):
             except Exception:
                 pass
             
-            del State.driver
-            
-            State.driver = webdriver.Chrome()
+            driver.__dict__ = new_driver.__dict__
             State.driver.get(url)
             
         time.sleep(5)
     else:
-        print("no verification")
+        logger.info("no verification")
     cookies_ok()
 
 
