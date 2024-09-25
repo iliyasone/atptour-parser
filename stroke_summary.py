@@ -30,7 +30,7 @@ class Hands(Mapping[str, Hand]):
 handsLabes = ["winners", "forcingShots", "unforcedErrors", "ralliesContinued"]
 
 
-def parse_stroke_summary():
+def parse_stroke_summary() -> StrokeSummary:
     time.sleep(2)
     driver.find_element(By.XPATH, r"//button[text()='Stroke Summary']").click()
     time.sleep(1)

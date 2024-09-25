@@ -4,8 +4,8 @@ from typing import Literal, TypedDict, Optional
 
 from atptour import *
 
-class Games(TypedDict):
-    games: list[Games]
+class MatchBeats(TypedDict):
+    games: list[MatchBeats]
 
 class Game(TypedDict):
     id: str
@@ -29,7 +29,7 @@ def click_serve_button():
 def _get_options():
     return driver.find_element(By.CLASS_NAME, "sublink-container").find_elements(By.XPATH, './*')
 
-def both() -> list[Games]:    
+def both() -> list[MatchBeats]:    
     games: list[Game] = []
     for game_block in driver.find_elements(By.CLASS_NAME, 'game-block'):
         scroll_to(game_block, align_to_bottom=False)
@@ -103,7 +103,7 @@ def both() -> list[Games]:
 def join_with_player_data(
         player: str, 
         player_number: Literal[1, 2], 
-        games: list[Games]
+        games: list[MatchBeats]
         ) -> None:
     
     click_serve_button() # open options
@@ -144,7 +144,7 @@ def join_with_player_data(
 
 
 @save_as_json
-def parse_matchbeats() -> Games:
+def parse_matchbeats() -> MatchBeats:
     driver.find_element(By.XPATH, r"//button[text()='MatchBeats']").click()
 
     games = both()

@@ -252,7 +252,7 @@ def options_stable_iterator():
 
 
 @save_as_json
-def parse_court_vision():
+def parse_court_vision() -> CourtVision:
     driver.implicitly_wait(1)
 
     driver.find_element(By.ID, "tabCourtVision").click()

@@ -19,7 +19,7 @@ class Point(TypedDict):
     type: str
     count: int
 
-def rally_analysis():
+def parse_rally_analysis() -> RallyAnalysis:
     driver.find_element(By.XPATH, r"//button[text()='Rally Analysis']").click()
     time.sleep(2)
     expand_all()
@@ -63,4 +63,4 @@ def rally_analysis():
     return data
 
 if __name__ == '__main__':
-    rally_analysis()
+    parse_rally_analysis()

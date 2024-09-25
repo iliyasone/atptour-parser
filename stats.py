@@ -42,8 +42,6 @@ def get_all_tiles() -> list[StatsHeader]:
 
         statsWithHeader: StatsHeader = {"header": statsTiles[0].text, "tiles": []}
 
-        print(statsTiles[0].text)
-
         for statTileWrapper in statsTiles[1:]:
             tile = tuple(
                 el.text
@@ -71,7 +69,7 @@ def wait_loading():
 
 
 @save_as_json
-def parse_stats():
+def parse_stats() -> Stats:
     stats: Stats = {"matchStats": []}
 
     scroll_to_header_button()
