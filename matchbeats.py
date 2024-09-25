@@ -142,6 +142,8 @@ def join_with_player_data(
         
     click_serve_button() # return to both
 
+def discard_parentheses_elements(lst: list[str]):
+    return [elem for elem in lst if not (elem.startswith('(') and elem.endswith(')'))]
 
 @save_as_json
 def parse_matchbeats() -> MatchBeats:
@@ -149,7 +151,7 @@ def parse_matchbeats() -> MatchBeats:
 
     games = both()
 
-    player1, _, player2, _ = driver.find_element(By.CLASS_NAME, 'player-name-block').text.split('\n')
+    player1, player2 = discard_parentheses_elements(driver.find_element(By.CLASS_NAME, 'player-name-block').text.split('\n'))
 
     for player, playerNumb in ((player1, 1), (player2, 2)):
         join_with_player_data(player, playerNumb, games)
