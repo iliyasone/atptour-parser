@@ -134,9 +134,9 @@ def join_with_player_data(
             except NoSuchElementException:
                 continue
 
-            
+
             if 'type' in serve and serve['type'] != type:
-                print(id, type, serve['type'])
+                # logger.info(id, type, serve['type'])
                 serve['type'] = f"{serve['type']} ({type})"
             else:
                 serve['type'] = type

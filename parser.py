@@ -60,24 +60,23 @@ try:
                         mode='w') as f:
                     try:
                         data = func()
-                    except RuntimeError as er:
-                        print(f'runtime error for {funcname} {match_id} {tournament_id}: {er}. Try again.')
-
+                    except WebDriverException as er:
+                        logger.error(f'WebDriver error for {funcname} {match_id} {tournament_id}: {er}. Trying again...')
+                        time.sleep(5)
                         try:
                             data = func()
-                            print('no erroe, OK')
-                        except RuntimeError as er:
-                            print(er)
-                            traceback.print_exc()
-                        
-                    json.dump(func(), f, indent=4)
+                            logger.info('no error, OK')
+                        except WebDriverException as er:
+                            logger.error('Error repeated:', exc_info=True)
+                            continue
+                    logger.info(f'{funcname} for {tournament_id}/{match_id} saved')
+                    json.dump(data, f, indent=4)
                 isParsed[funcname] = True
 
             
             if run:
                 with open(path + '/match.json', mode='w') as f:
                     json.dump(match, f, indent=4)
-                    print(match)
 
             atLeastOneMatchSaved = True
         if atLeastOneMatchSaved:
