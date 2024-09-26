@@ -60,13 +60,13 @@ try:
                         mode='w') as f:
                     try:
                         data = func()
-                    except WebDriverException as er:
-                        logger.error(f'WebDriver error for {funcname} {match_id} {tournament_id}: {er}. Trying again...')
+                    except (WebDriverException, Exception) as er:
+                        logger.error(f'{er.__class__} error for {funcname} {match_id} {tournament_id}: {er}. Trying again...')
                         time.sleep(5)
                         try:
                             data = func()
                             logger.info('no error, OK')
-                        except WebDriverException as er:
+                        except (WebDriverException, Exception) as er:
                             logger.error('Error repeated:', exc_info=True)
                             continue
                     logger.info(f'{funcname} for {tournament_id}/{match_id} saved')
