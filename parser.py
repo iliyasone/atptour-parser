@@ -82,7 +82,9 @@ try:
         if atLeastOneMatchSaved:
             with open('/'.join([year, tournament_id]) + '/tournament.json',mode='w') as f:
                 json.dump(tournament, f, indent=4)
-except (Exception, KeyboardInterrupt):
+except (Exception, KeyboardInterrupt) as e:
+    print(f'{e.__class__.__name__}! start saving file...')
     with open('traverse.json', 'w') as f:
         json.dump(traverse, f, indent=4)
+    print('done')
     raise
