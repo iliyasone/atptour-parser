@@ -9,7 +9,14 @@ class State:
 
     
 def get_driver() -> WebDriver:
-    return webdriver.Chrome()
+    chrome_options = Options()
+    # chrome_options.add_argument("--headless")  # Start in headless mode
+    chrome_options.add_argument("--disable-gpu")  # Disable GPU acceleration
+    if platform.system() == 'Linux':
+        chrome_options.add_argument("--no-sandbox")  # Needed for Linux environments
+    chrome_options.add_argument("--disable-dev-shm-usage")  # Overcome resource constraints
+    chrome_options.add_argument("--window-size=1920,1080") 
+    return webdriver.Chrome(options=chrome_options)
     
 driver = State.driver = get_driver()
 
