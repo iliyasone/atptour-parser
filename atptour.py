@@ -2,7 +2,7 @@ import json
 from functools import wraps
 
 from imports import *
-
+from pyvirtualdisplay import Display
 
 class State:
     driver: WebDriver
@@ -10,6 +10,12 @@ class State:
 
 class AtptourException(Exception):
     pass
+
+if platform == 'Linux':
+    display = Display(visible=0, size=(1920, 1080))  # You can adjust the resolution
+    display.start()
+else:
+    display = None
     
 def get_driver() -> WebDriver:
     chrome_options = Options()
