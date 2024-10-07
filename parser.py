@@ -57,7 +57,7 @@ try:
                 os.makedirs(path, exist_ok=True)
 
             for func, funcname in run:
-                with open('temp/'+ path + '/' + funcname +'.json', 
+                with open(path + '/' + funcname +'.json', 
                         mode='w') as f:
                     try:
                         data = func()
@@ -68,7 +68,7 @@ try:
                     except (WebDriverException, Exception) as er:
                         logger.error(
                             f'{er.__class__.__name__} error for {funcname} {match['link']}: '
-                            f'{str(er).partition("Stacktrace:")[0]}. Trying again...')
+                            f'{str(er).partition("Stacktrace:")[0]}\nTrying again...')
                         driver.refresh()
                         time.sleep(5)
                         try:

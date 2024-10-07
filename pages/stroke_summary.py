@@ -71,9 +71,6 @@ def parse_stroke_summary() -> StrokeSummary:
 
             strokeData[player] = handsData
         data["strokes"].append(strokeData)
-
-    with open("strokeSummary.json", mode="w") as file:
-        json.dump(data, file, indent=4)
     return data
 
 if __name__ == "__main__":

@@ -58,10 +58,7 @@ def parse_rally_analysis() -> RallyAnalysis:
                     point: Point = {'count': int(count), 'type': type}
                     shotData[playerLabel].append(point)
             
-            data[rally_label].append(shotData)
-    with open('rally_analysis.json', mode='w') as file:
-        json.dump(data, file, indent=4)
-    
+            data[rally_label].append(shotData)    
     return data
 
 if __name__ == '__main__':
