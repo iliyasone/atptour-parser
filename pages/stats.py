@@ -69,6 +69,7 @@ def wait_loading():
 
 
 @save_as_json
+@verify_resistant
 def parse_stats() -> Stats:
     stats: Stats = {"matchStats": []}
 

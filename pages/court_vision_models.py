@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Literal, NotRequired, TypedDict, get_type_hints
+from typing import Literal, NotRequired, TypedDict
 
 
 class Dictable:

@@ -19,6 +19,8 @@ class Point(TypedDict):
     type: str
     count: int
 
+@save_as_json
+@verify_resistant
 def parse_rally_analysis() -> RallyAnalysis:
     driver.find_element(By.XPATH, r"//button[text()='Rally Analysis']").click()
     time.sleep(2)

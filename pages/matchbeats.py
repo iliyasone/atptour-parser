@@ -4,6 +4,13 @@ from typing import Literal, TypedDict, Optional
 
 from atptour import *
 
+
+class MatchBeatsException(AtptourException):
+    pass
+
+class EmptyMatchBeatsException(MatchBeatsException):
+    pass
+
 class MatchBeats(TypedDict):
     games: list[MatchBeats]
 
@@ -150,12 +157,16 @@ def discard_parentheses_elements(lst: list[str]):
     return [elem for elem in lst if not (elem.startswith('(') and elem.endswith(')'))]
 
 @save_as_json
+@verify_resistant
 def parse_matchbeats() -> MatchBeats:
     driver.find_element(By.XPATH, r"//button[text()='MatchBeats']").click()
 
     games = both()
 
-    player1, player2 = discard_parentheses_elements(driver.find_element(By.CLASS_NAME, 'player-name-block').text.split('\n'))
+    try:
+        player1, player2 = discard_parentheses_elements(driver.find_element(By.CLASS_NAME, 'player-name-block').text.split('\n'))
+    except NoSuchElementException:
+        raise EmptyMatchBeatsException from None
 
     for player, playerNumb in ((player1, 1), (player2, 2)):
         join_with_player_data(player, playerNumb, games)

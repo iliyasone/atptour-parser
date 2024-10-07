@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 
 from atptour import *
-from court_vision_models import *
+from pages.court_vision_models import *
 
 
 def to_camel_case(_s: str, /) -> str:
@@ -252,6 +252,7 @@ def options_stable_iterator():
 
 
 @save_as_json
+@verify_resistant
 def parse_court_vision() -> CourtVision:
     driver.implicitly_wait(1)
 

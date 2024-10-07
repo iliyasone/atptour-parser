@@ -62,7 +62,7 @@ def save_tournaments():
         if link:
             tournaments.append(link)
 
-    with open("tournaments.txt", "w") as file:
+    with open("temp/tournaments.txt", "w") as file:
         file.write("\n".join(tournaments))
 
 
@@ -82,7 +82,7 @@ def is_apt_tournament():
 def traverse():
     result: Tournaments = {"tournaments": []}
 
-    with open("tournaments.txt", "r") as file:
+    with open("temp/tournaments.txt", "r") as file:
         tournaments = file.readlines()
 
     for link in tournaments:

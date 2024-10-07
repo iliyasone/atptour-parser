@@ -2,10 +2,10 @@ import os
 import traceback
 
 from atptour import *
-from matchbeats import *
-from rally_analysis import *
-from stroke_summary import *
-from stats import *
+from pages.matchbeats import *
+from pages.rally_analysis import *
+from pages.stroke_summary import *
+from pages.stats import *
 
 from tournament_traversal import Tournaments, Parsed
 
@@ -17,7 +17,7 @@ required: Parsed = {
     'strokeSummary': True
 }
 
-with open('traverse.json','r') as f:
+with open('temp/traverse.json','r') as f:
     traverse: Tournaments = json.load(f)
 
 try:
@@ -34,8 +34,9 @@ try:
                 if not required[needToParse]:
                     continue # not required
 
-                if isParsed[needToParse]:
-                    continue # already parsed
+                if isParsed[needToParse] is True or isParsed[needToParse] is None:
+                    continue # already parsed or empty content
+
                 match needToParse:
                     case 'courtVision':
                         raise NotImplementedError
@@ -60,14 +61,22 @@ try:
                         mode='w') as f:
                     try:
                         data = func()
+                    except AtptourException as e:
+                        logger.error(f'{e.__class__.__name__} - empty content, contiue')
+                        isParsed[funcname] = None
+                        continue
                     except (WebDriverException, Exception) as er:
-                        logger.error(f'{er.__class__} error for {funcname} {match_id} {tournament_id}: {er}. Trying again...')
+                        logger.error(
+                            f'{er.__class__.__name__} error for {funcname} {match['link']}: '
+                            f'{str(er).partition("Stacktrace:")[0]}. Trying again...')
+                        driver.refresh()
                         time.sleep(5)
                         try:
                             data = func()
                             logger.info('no error, OK')
                         except (WebDriverException, Exception) as er:
-                            logger.error('Error repeated:', exc_info=True)
+                            tb_str = traceback.format_exc(chain=False).partition("Stacktrace:")[0]
+                            logger.error('Error repeated:\n' + tb_str)
                             continue
                     logger.info(f'{funcname} for {tournament_id}/{match_id} saved')
                     json.dump(data, f, indent=4)
@@ -84,7 +93,9 @@ try:
                 json.dump(tournament, f, indent=4)
 except (Exception, KeyboardInterrupt) as e:
     print(f'{e.__class__.__name__}! start saving file...')
-    with open('traverse.json', 'w') as f:
+    with open('temp/traverse.json', 'w') as f:
         json.dump(traverse, f, indent=4)
     print('done')
-    raise
+
+    if isinstance(e, Exception):
+        raise
