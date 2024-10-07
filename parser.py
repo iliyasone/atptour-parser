@@ -57,7 +57,7 @@ try:
                 os.makedirs(path, exist_ok=True)
 
             for func, funcname in run:
-                with open(path + '/' + funcname +'.json', 
+                with open('temp/'+ path + '/' + funcname +'.json', 
                         mode='w') as f:
                     try:
                         data = func()
