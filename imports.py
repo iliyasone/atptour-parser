@@ -28,7 +28,6 @@ root_logger.setLevel(logging.DEBUG)
 
 
 # Set the logging level to WARNING to suppress debug and info messages
-
 selenium_logger = logging.getLogger('selenium')
 selenium_logger.setLevel(logging.WARNING)
 
@@ -55,7 +54,7 @@ root_logger.addHandler(console_handler)
 
 # Set up atptour logger (main logger named 'logger')
 logger = logging.getLogger('atptour')
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.DEBUG)
 
 # Propagate all messages to the root logger
 logger.propagate = True

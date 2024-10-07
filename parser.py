@@ -9,6 +9,10 @@ from pages.stats import *
 
 from tournament_traversal import Tournaments, Parsed
 
+from settings import settings
+
+settings.last_time_saved = int(time.time())
+
 required: Parsed = {
     'courtVision': False,
     'matchBeats': True,
@@ -20,11 +24,21 @@ required: Parsed = {
 with open('temp/traverse.json','r') as f:
     traverse: Tournaments = json.load(f)
 
+def dump():
+    with open('temp/traverse.json', 'w') as f:
+        json.dump(traverse, f, indent=4)
+
 try:
     for tournament in traverse['tournaments']:
         atLeastOneMatchSaved = False
 
         for match in tournament['matches']:
+            # save to the file each 60 seconds
+            if time.time() - settings.last_time_saved > 60:
+                dump()
+                settings.last_time_saved = int(time.time())
+
+
             isParsed = match['isParsed']
 
             run = []
@@ -93,8 +107,7 @@ try:
                 json.dump(tournament, f, indent=4)
 except (Exception, KeyboardInterrupt) as e:
     print(f'{e.__class__.__name__}! start saving file...')
-    with open('temp/traverse.json', 'w') as f:
-        json.dump(traverse, f, indent=4)
+    dump()
     print('done')
 
     if isinstance(e, Exception):

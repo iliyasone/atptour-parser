@@ -23,6 +23,17 @@ def get_driver() -> WebDriver:
     
 State.driver = driver = get_driver()
 
+if platform.system() == 'Linux':
+    # jupyter console
+    # does not proprely send KeyboardInterrupt
+    # so we will do it ourself
+    import signal
+
+    def signal_handler(sig, frame):
+        raise KeyboardInterrupt
+
+    signal.signal(signal.SIGINT, signal_handler)
+
 
 url = "https://www.atptour.com/en/scores/stats-centre/live/2024/6242/MS005?tab=CourtVision"
 
