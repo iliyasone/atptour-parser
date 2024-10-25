@@ -40,7 +40,7 @@ try:
                 dump()
                 settings.last_time_saved = int(time.time())
             if time.time() - settings.last_time_logged > settings.delta_logging:
-                log_status(data)
+                log_status(traverse)
                 settings.last_time_logged = int(time.time())
 
 
