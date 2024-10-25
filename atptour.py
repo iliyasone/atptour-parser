@@ -2,7 +2,7 @@ import json
 from functools import wraps
 
 from imports import *
-from pyvirtualdisplay import Display
+
 
 class State:
     driver: WebDriver
@@ -12,12 +12,15 @@ class AtptourException(Exception):
     pass
 
 if platform == 'Linux':
+    from pyvirtualdisplay import Display
     display = Display(visible=0, size=(1920, 1080))  # You can adjust the resolution
     display.start()
 else:
     display = None
     
 def get_driver() -> WebDriver:
+    # import undetected_chromedriver as uc
+
     chrome_options = Options()
     # chrome_options.add_argument("--headless")  # Start in headless mode
     chrome_options.add_argument("--disable-gpu")  # Disable GPU acceleration
@@ -25,7 +28,15 @@ def get_driver() -> WebDriver:
         chrome_options.add_argument("--no-sandbox")  # Needed for Linux environments
     chrome_options.add_argument("--disable-dev-shm-usage")  # Overcome resource constraints
     chrome_options.add_argument("--window-size=1920,1080") 
-    return webdriver.Chrome(options=chrome_options)
+    # chrome_options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+    #                             "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 "
+    #                             "Safari/537.36")
+
+    driver = webdriver.Chrome(options=chrome_options)
+    # driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+
+
+    return driver
     
 State.driver = driver = get_driver()
 

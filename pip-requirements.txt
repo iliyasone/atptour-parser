@@ -1,3 +1,4 @@
 selenium
-pyvirtualdisplay
+# pyvirtualdisplay
 rich
+setuptools
