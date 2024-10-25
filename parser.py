@@ -11,6 +11,8 @@ from tournament_traversal import Tournaments, Parsed
 
 from settings import settings
 
+from progress import log_status
+
 settings.last_time_saved = int(time.time())
 
 required: Parsed = {
@@ -37,6 +39,9 @@ try:
             if time.time() - settings.last_time_saved > 60:
                 dump()
                 settings.last_time_saved = int(time.time())
+            if time.time() - settings.last_time_logged > settings.delta_logging:
+                log_status(data)
+                settings.last_time_logged = int(time.time())
 
 
             isParsed = match['isParsed']

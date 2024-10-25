@@ -2,3 +2,4 @@ selenium
 # pyvirtualdisplay
 rich
 setuptools
+requests

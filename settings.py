@@ -94,4 +94,7 @@ class Settings(RealTimeFileObject):
     last_time_saved: int = lambda : int(time.time()) 
     """last time when file was saved"""
 
+    last_time_logged: int = 0
+
+    delta_logging: int = 60*15 # 15 minuets
 settings = Settings()
