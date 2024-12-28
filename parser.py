@@ -106,7 +106,7 @@ try:
                 with open(path + '/match.json', mode='w') as f:
                     json.dump(match, f, indent=4)
 
-            atLeastOneMatchSaved = True
+                atLeastOneMatchSaved = True
         if atLeastOneMatchSaved:
             with open('/'.join([year, tournament_id]) + '/tournament.json',mode='w') as f:
                 json.dump(tournament, f, indent=4)
