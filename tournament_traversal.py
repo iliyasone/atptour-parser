@@ -77,6 +77,12 @@ def is_apt_tournament():
         return True
     return False
 
+def accept_cookies():
+    try:
+        driver.find_element(By.XPATH, r"//button[text()='Accept All Cookies']").click()
+    except (NoSuchElementException, ElementClickInterceptedException, ElementNotInteractableException):
+        pass
+
 
 @save_as_json
 def traverse():
