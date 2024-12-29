@@ -22,15 +22,6 @@ class Match(TypedDict):
     duration: str
     link: str
     notes: str
-    isParsed: Parsed
-
-
-class Parsed(TypedDict):
-    stats: bool
-    matchBeats: bool
-    courtVision: bool
-    rallyAnalysis: bool
-    strokeSummary: bool
 
 
 from typing import Literal
@@ -166,14 +157,7 @@ def traverse():
                     "arena": arena,
                     "duration": duration,
                     "link": link,
-                    "notes": notes,
-                    "isParsed": {
-                        "courtVision": False,
-                        "matchBeats": False,
-                        "rallyAnalysis": False,
-                        "stats": False,
-                        "strokeSummary": False,
-                    },
+                    "notes": notes
                 }
             )
         result["tournaments"].append(tournament)
