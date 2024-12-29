@@ -94,7 +94,7 @@ def traverse():
     for link in tournaments:
 
         safe_get(link)
-
+        accept_cookies()
         tournament_name, info = State.driver.find_element(
             By.CLASS_NAME, "schedule"
         ).text.split("\n")
