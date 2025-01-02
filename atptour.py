@@ -131,6 +131,13 @@ def delete_cache():
         driver.window_handles[0]
     )  # Switch Selenium controls to the original tab to continue normal functionality.
 
+def accept_cookies():
+    try:
+        driver.find_element(By.XPATH, r"//button[text()='Accept All Cookies']").click()
+    except (NoSuchElementException, ElementClickInterceptedException, ElementNotInteractableException):
+        pass
+    time.sleep(2)
+
 
 def overcome_verification():
     verifyThatYouAreHuman = driver.find_elements(
