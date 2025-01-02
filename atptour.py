@@ -136,7 +136,7 @@ def accept_cookies():
 
 def overcome_verification():
     verifyThatYouAreHuman = driver.find_elements(
-        By.XPATH, r"//h2[contains(text(), 'you are human')]"
+        By.XPATH, r"//*[contains(text(), 'you are human')]"
     )
     if verifyThatYouAreHuman:
         logger.debug("verification")
