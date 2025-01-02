@@ -29,10 +29,13 @@ root_logger.setLevel(logging.DEBUG)
 
 # Set the logging level to WARNING to suppress debug and info messages
 selenium_logger = logging.getLogger('selenium')
-selenium_logger.setLevel(logging.WARNING)
+selenium_logger.setLevel(logging.ERROR)
 
 urllib3_logger = logging.getLogger('urllib3.connectionpool')
 urllib3_logger.setLevel(logging.WARNING)
+
+logging.getLogger("urllib3").setLevel(logging.WARNING)
+
 
 
 # Create a file handler that logs to 'log.txt'
