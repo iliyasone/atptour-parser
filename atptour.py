@@ -21,6 +21,8 @@ def get_driver() -> WebDriver:
         chrome_options.add_argument("--no-sandbox")  # Needed for Linux environments
     chrome_options.add_argument("--disable-dev-shm-usage")  # Overcome resource constraints
     chrome_options.add_argument("--window-size=1920,1080") 
+    chrome_options.add_argument("--log-level=1")
+
     # chrome_options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
     #                             "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 "
     #                             "Safari/537.36")
