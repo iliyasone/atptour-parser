@@ -3,3 +3,5 @@ selenium
 rich
 setuptools
 requests
+pycryptodome
+aiohttp
