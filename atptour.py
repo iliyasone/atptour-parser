@@ -11,13 +11,6 @@ class State:
 class AtptourException(Exception):
     pass
 
-if platform == 'Linux':
-    from pyvirtualdisplay import Display
-    display = Display(visible=0, size=(1920, 1080))  # You can adjust the resolution
-    display.start()
-else:
-    display = None
-    
 def get_driver() -> WebDriver:
     # import undetected_chromedriver as uc
 
