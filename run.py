@@ -3,8 +3,11 @@ import aiohttp
 import os
 import json
 from decrypt import decrypt
+import cloudscraper
+    
 
-async def process_job(session: aiohttp.ClientSession, job: dict) -> None:
+
+async def process_job(session: aiohttp.ClientSession, scraper: cloudscraper.CloudScraper, job: dict) -> None:
     """
     1. Fetch the encrypted JSON from job["url"].
     2. Decrypt it.
@@ -19,27 +22,28 @@ async def process_job(session: aiohttp.ClientSession, job: dict) -> None:
         return None
 
     # 1) HTTP GET
-    async with session.get(url) as resp:
-        try:
-            resp.raise_for_status()  # If 4xx/5xx, raise an exception
-        except Exception as e:
-            print(e)
-            return None
-
-        try:
-            data_json = await resp.json()  # Should conform to _Response structure
-        except Exception as e:
-            print(e)
-            print('marked as error type')
-            job["match"]["parsed"].append(e.__class__.__name__)
-            return None
-    # 2) Decrypt
-    # data_json is like: { "lastModified": <int>, "response": <str> }
-
     if 'Hawkeye' not in url:
-        payload = decrypt(data_json)
+        async with session.get(url) as resp:
+            try:
+                resp.raise_for_status()  # If 4xx/5xx, raise an exception
+            except Exception as e:
+                print(e)
+                return None
+            try:
+                data_json = await resp.json()  # Should conform to _Response structure
+            except Exception as e:
+                print(e)
+                print('marked as error type')
+                job["match"]["parsed"].append(e.__class__.__name__)
+                return None
+            # 2) Decrypt
+            # data_json is like: { "lastModified": <int>, "response": <str> }
+
+            payload = decrypt(data_json)
     else:
-        payload = data_json
+        response = scraper.get(url)
+        payload = json.loads(response.text)
+
 
     # 3) Save to local path
     os.makedirs(os.path.dirname(local_path), exist_ok=True)  # Create dirs
@@ -59,12 +63,13 @@ async def run_jobs(jobs: list[dict], concurrency: int = 100) -> None:
     """
     semaphore = asyncio.Semaphore(concurrency)
 
-    async def sem_task(session, j):
+    cs = cloudscraper.create_scraper()
+    async def sem_task(session, cs, j):
         async with semaphore:
-            await process_job(session, j)
+            await process_job(session, cs, j)
 
     async with aiohttp.ClientSession() as session:
-        tasks = [asyncio.create_task(sem_task(session, job)) for job in jobs[::-1]]
+        tasks = [asyncio.create_task(sem_task(session, cs,job)) for job in jobs[::-1]]
         await asyncio.gather(*tasks, return_exceptions=False)
 
 
