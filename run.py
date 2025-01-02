@@ -11,7 +11,7 @@ from Crypto.Cipher import AES
 # ---------------------------------------------------------------------
 # Decryption helpers from your snippet:
 # ---------------------------------------------------------------------
-def remove_padding(data: bytes) -> bytes:
+def _remove_padding(data: bytes) -> bytes:
     # Get the value of the last byte
     padding_len = data[-1]
     # Validate and remove the padding
@@ -98,7 +98,7 @@ async def process_job(session: aiohttp.ClientSession, job: Dict[str, Any]) -> No
         encrypted_payload = base64.b64decode(encrypted_b64)
         decrypted_bytes = _decrypt(key, iv, encrypted_payload)
         # Remove PKCS#7 or custom padding:
-        decrypted_bytes = remove_padding(decrypted_bytes)
+        decrypted_bytes = _remove_padding(decrypted_bytes)
 
         payload = json.loads(decrypted_bytes)
     else:
