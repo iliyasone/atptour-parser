@@ -69,7 +69,7 @@ async def run_jobs(jobs: list[dict], concurrency: int = 100) -> None:
             await process_job(session, cs, j)
 
     async with aiohttp.ClientSession() as session:
-        tasks = [asyncio.create_task(sem_task(session, cs,job)) for job in jobs[::-1]]
+        tasks = [asyncio.create_task(sem_task(session, cs,job)) for job in jobs]
         await asyncio.gather(*tasks, return_exceptions=False)
 
 
