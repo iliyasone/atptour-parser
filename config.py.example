@@ -1,2 +1,0 @@
-TELEGRAM_TOKEN: str = ""
-CHAT_ID: int = 0

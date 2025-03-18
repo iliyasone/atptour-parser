@@ -11,13 +11,6 @@ class State:
 class AtptourException(Exception):
     pass
 
-if platform == 'Linux':
-    from pyvirtualdisplay import Display
-    display = Display(visible=0, size=(1920, 1080))  # You can adjust the resolution
-    display.start()
-else:
-    display = None
-    
 def get_driver() -> WebDriver:
     # import undetected_chromedriver as uc
 
@@ -28,6 +21,8 @@ def get_driver() -> WebDriver:
         chrome_options.add_argument("--no-sandbox")  # Needed for Linux environments
     chrome_options.add_argument("--disable-dev-shm-usage")  # Overcome resource constraints
     chrome_options.add_argument("--window-size=1920,1080") 
+    chrome_options.add_argument("--log-level=1")
+
     # chrome_options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
     #                             "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 "
     #                             "Safari/537.36")
@@ -131,10 +126,17 @@ def delete_cache():
         driver.window_handles[0]
     )  # Switch Selenium controls to the original tab to continue normal functionality.
 
+def accept_cookies():
+    try:
+        driver.find_element(By.XPATH, r"//button[text()='Accept All Cookies']").click()
+    except (NoSuchElementException, ElementClickInterceptedException, ElementNotInteractableException):
+        pass
+    time.sleep(2)
+
 
 def overcome_verification():
     verifyThatYouAreHuman = driver.find_elements(
-        By.XPATH, r"//h2[contains(text(), 'you are human')]"
+        By.XPATH, r"//*[contains(text(), 'you are human')]"
     )
     if verifyThatYouAreHuman:
         logger.debug("verification")
