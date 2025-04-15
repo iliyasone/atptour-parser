@@ -2,6 +2,8 @@
 
 Structure is a trash, but trust me its not very complicated
 
+If you need any asisstance, write me in Telegram: [@iliyasone](https://t.me/iliyasone)
+
 # How to parse?
 
 ## 1. `temp/tournaments.txt`  
